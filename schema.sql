@@ -43,6 +43,7 @@ CREATE TABLE subscriber_review (
     latency TEXT
 );
 
+-- .env.local
 POSTGRES_URL="postgres://default:s4REzjfPZoX6@ep-muddy-silence-73034991-pooler.us-east-1.aws.neon.tech:5432/reputationdb?sslmode=require"
 POSTGRES_PRISMA_URL="postgres://default:s4REzjfPZoX6@ep-muddy-silence-73034991-pooler.us-east-1.aws.neon.tech:5432/reputationdb?sslmode=require&pgbouncer=true&connect_timeout=15"
 POSTGRES_URL_NO_SSL="postgres://default:s4REzjfPZoX6@ep-muddy-silence-73034991-pooler.us-east-1.aws.neon.tech:5432/reputationdb"
