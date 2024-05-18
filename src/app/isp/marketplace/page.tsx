@@ -23,7 +23,9 @@ export default function VNFList() {
 
     useEffect(() => {
        
-        fetch(`/api/getvnfs`)
+        fetch(`/api/getvnfs`,{
+            cache: 'no-cache',
+        })
             .then((res) => res.json())
             .then((data) => {
                 

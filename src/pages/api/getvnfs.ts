@@ -25,31 +25,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             users.name AS vendorname, 
             COALESCE(isp.avg_isp_score, 0) AS avg_isp_score, 
             COALESCE(subscriber.avg_subscriber_score, 0) AS avg_subscriber_score
-        FROM 
-            vnf 
-        JOIN 
-            users ON vnf.vendorid = users.id 
-        LEFT JOIN 
-            (
-                SELECT 
-                    vnfid,
-                    AVG(score) AS avg_isp_score
-                FROM 
-                    isp_review
-                GROUP BY 
-                    vnfid
-            ) AS isp ON vnf.id = isp.vnfid 
-        LEFT JOIN 
-            (
-                SELECT 
-                    vnfid,
-                    AVG(score) AS avg_subscriber_score
-                FROM 
-                    subscriber_review
-                GROUP BY 
-                    vnfid
-            ) AS subscriber ON vnf.id = subscriber.vnfid;
-        
+            FROM 
+                vnf 
+            JOIN 
+                users ON vnf.vendorid = users.id 
+            LEFT JOIN 
+                (
+                    SELECT 
+                        vnfid,
+                        AVG(score) AS avg_isp_score
+                    FROM 
+                        isp_review
+                    GROUP BY 
+                        vnfid
+                ) AS isp ON vnf.id = isp.vnfid 
+            LEFT JOIN 
+                (
+                    SELECT 
+                        vnfid,
+                        AVG(score) AS avg_subscriber_score
+                    FROM 
+                        subscriber_review
+                    GROUP BY 
+                        vnfid
+                ) AS subscriber ON vnf.id = subscriber.vnfid;
+            
             `);
 
             const data: VNF[] = result.rows.map(row => ({

@@ -1,6 +1,7 @@
 "use client";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface VNF {
@@ -23,7 +24,9 @@ export default function VNFList() {
 
     useEffect(() => {
        
-        fetch(`/api/getvnfs`)
+        fetch(`/api/getvnfs`,{
+            cache: 'no-cache',
+        })
             .then((res) => res.json())
             .then((data) => {
                 
@@ -32,9 +35,6 @@ export default function VNFList() {
             });
     }, []);
     
-
-
-
   return (
     <main className="p-24">
         <h1 className="text-4xl">Marketplace</h1>
@@ -53,7 +53,7 @@ export default function VNFList() {
                 </CardContent>
                 <CardFooter className="space-x-2" >
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Review
+                    <Link href={`/subreview/${vnf.id}/1`}>Review</Link>
                     </button>
                     <p> Score : {vnf.score}</p>
                 </CardFooter>
