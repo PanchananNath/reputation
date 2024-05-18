@@ -42,3 +42,13 @@ CREATE TABLE subscriber_review (
     throughput TEXT,
     latency TEXT
 );
+
+POSTGRES_URL="postgres://default:s4REzjfPZoX6@ep-muddy-silence-73034991-pooler.us-east-1.aws.neon.tech:5432/reputationdb?sslmode=require"
+POSTGRES_PRISMA_URL="postgres://default:s4REzjfPZoX6@ep-muddy-silence-73034991-pooler.us-east-1.aws.neon.tech:5432/reputationdb?sslmode=require&pgbouncer=true&connect_timeout=15"
+POSTGRES_URL_NO_SSL="postgres://default:s4REzjfPZoX6@ep-muddy-silence-73034991-pooler.us-east-1.aws.neon.tech:5432/reputationdb"
+POSTGRES_URL_NON_POOLING="postgres://default:s4REzjfPZoX6@ep-muddy"
+DB_USER="default"
+DB_HOST="ep-muddy-silence-73034991-pooler.us-east-1.aws.neon.tech"
+DB_NAME="reputationdb"
+DB_PASSWORD="s4REzjfPZoX6"
+DB_PORT="5432"
