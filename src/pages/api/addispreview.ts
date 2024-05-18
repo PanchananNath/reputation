@@ -15,6 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             securitymatched,
             throughput,
             latency,
+            score
         }: ISPReview = req.body;
 
         // Basic validation
@@ -28,7 +29,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             bandwidthmatched === undefined ||
             securitymatched === undefined ||
             throughput === undefined ||
-            latency === undefined
+            latency === undefined ||
+            score === undefined
         ) {
             return res.status(400).json({ message: 'All fields are required' });
         }
@@ -36,10 +38,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         try {
             const result = await query(
                 `INSERT INTO isp_review 
-                (vnfid, userid, success, processormatched, memorymatched, storagematched, bandwidthmatched, securitymatched, throughput, latency) 
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
+                (vnfid, userid, success, processormatched, memorymatched, storagematched, bandwidthmatched, securitymatched, throughput, latency ,score) 
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11) 
                 RETURNING id`,
-                [vnfid, userid, success, processormatched, memorymatched, storagematched, bandwidthmatched, securitymatched, throughput, latency]
+                [vnfid, userid, success, processormatched, memorymatched, storagematched, bandwidthmatched, securitymatched, throughput, latency, score]
             );
             const newReview = result.rows[0];
             return res.status(201).json({ message: 'ISP Review created', review: newReview });

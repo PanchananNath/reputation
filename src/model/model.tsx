@@ -18,6 +18,7 @@ export interface VNF {
     storage: string;
     bandwidth: string;
     security: string;
+    filepath: string;
 }
 
 export interface ISPReview {
@@ -32,6 +33,7 @@ export interface ISPReview {
     securitymatched: boolean;
     throughput: string;
     latency: string;
+    score: number;
 }
 
 export interface SubscriberReview {
@@ -41,4 +43,5 @@ export interface SubscriberReview {
     bandwidthmatched: boolean;
     throughput: string;
     latency: string;
+    score: number;
 }

@@ -1,7 +1,21 @@
+"use client";
 import { useState } from "react";
 import Image from "next/image";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
+import { Spinner } from "@/components/ui/spinner";
+import { useRouter } from "next/navigation";
+
+enum LoadingState {
+    Idle,
+    Loading,
+    }
 
 export default function SignUp() {
+    const { toast } = useToast()
+    const [loadingState, setLoadingState] = useState(LoadingState.Idle);
   const [formData, setFormData] = useState({
     username: "",
     name: "",
@@ -17,11 +31,13 @@ export default function SignUp() {
       [name]: value,
     });
   };
+  const router = useRouter();
 
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
+    setLoadingState(LoadingState.Loading);
     try {
-      const response = await fetch("/api/users", {
+      const response = await fetch("/api/adduser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,24 +46,41 @@ export default function SignUp() {
       });
       if (response.ok) {
         console.log("User created successfully");
+        toast({
+            title: "User created successfully",
+            variant: "success",
+          })
+          setLoadingState(LoadingState.Idle);
+          router.push("/login");
       } else {
         console.error("Error creating user");
+        toast({
+            title: "Error creating user",
+            variant: "destructive",
+          })
+          setLoadingState(LoadingState.Idle);
       }
     } catch (error) {
       console.error("Error:", error);
+      toast({
+        title: "Error creating user",
+        variant: "destructive",
+      })
+      setLoadingState(LoadingState.Idle);
     }
   };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-6 bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Sign Up</h1>
+      <Card className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <CardHeader className="text-2xl font-bold mb-6 text-center">Sign Up</CardHeader>
+        <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block mb-1 font-medium" htmlFor="username">
               Username
             </label>
-            <input
+            <Input
               type="text"
               name="username"
               id="username"
@@ -61,7 +94,7 @@ export default function SignUp() {
             <label className="block mb-1 font-medium" htmlFor="name">
               Name
             </label>
-            <input
+            <Input
               type="text"
               name="name"
               id="name"
@@ -91,7 +124,7 @@ export default function SignUp() {
             <label className="block mb-1 font-medium" htmlFor="email">
               Email
             </label>
-            <input
+            <Input
               type="email"
               name="email"
               id="email"
@@ -105,7 +138,7 @@ export default function SignUp() {
             <label className="block mb-1 font-medium" htmlFor="password">
               Password
             </label>
-            <input
+            <Input
               type="password"
               name="password"
               id="password"
@@ -115,14 +148,23 @@ export default function SignUp() {
               required
             />
           </div>
-          <button
+          {
+            loadingState === LoadingState.Loading ? (
+              <div className="w-full flex justify-center">
+               <Spinner/>
+              </div>
+            ) : <button
             type="submit"
             className="w-full bg-blue-500 text-white font-medium py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Sign Up
           </button>
+          }
+          
         </form>
-      </div>
+        </CardContent>
+      </Card>
+      <Toaster />
     </main>
   );
 }

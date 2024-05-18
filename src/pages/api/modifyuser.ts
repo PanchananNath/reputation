@@ -58,7 +58,7 @@ async function handleUpdateUser(id: string, req: NextApiRequest, res: NextApiRes
 
     values.push(id);
 
-    const updateQuery = `UPDATE "user" SET ${fields.join(', ')} WHERE id = $${index} RETURNING *`;
+    const updateQuery = `UPDATE users SET ${fields.join(', ')} WHERE id = $${index} RETURNING *`;
 
     try {
         const result = await query(updateQuery, values);
@@ -75,7 +75,7 @@ async function handleUpdateUser(id: string, req: NextApiRequest, res: NextApiRes
 
 async function handleDeleteUser(id: string, res: NextApiResponse) {
     try {
-        const result = await query('DELETE FROM "user" WHERE id = $1 RETURNING *', [id]);
+        const result = await query('DELETE FROM users WHERE id = $1 RETURNING *', [id]);
         const deletedUser = result.rows[0];
         if (!deletedUser) {
             return res.status(404).json({ message: 'User not found' });

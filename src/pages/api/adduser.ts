@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         try {
             const result = await query(
-                'INSERT INTO "user" (username, name, type, email, password) VALUES ($1, $2, $3, $4, $5) RETURNING id',
+                'INSERT INTO users (username, name, type, email, password) VALUES ($1, $2, $3, $4, $5) RETURNING id',
                 [username, name, type, email, password]
             );
             const newUser = result.rows[0];
